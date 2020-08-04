@@ -1,0 +1,45 @@
+#4. How to create an EC2 instance with Linux and accessing the Metadata
+
+**download putty and puttygen softwares in your computer.
+Steps:-
+ 1. Log in to your AWS Console.
+ 2. Choose your region (upper right side of console).
+ 3. I have taken Tokyo.
+ 4. Click on Services option ( upper left side of console).
+ 5. Go to Compute section and click on EC2 option.
+ 6. Click on Launch Instances.
+ 7. Select "Linux" which must be a free tier server.
+ 8. Select General Purpose "t2 micro" free tier eligible and click on Next.
+ 9. If you want you can choose subnet or else leave it as it is but make sure "Auto-assign Public IP" is ENABLED and you have checked on "Enable Termination Protection" option.
+ 10. Click on Next and in the storage section no need to add extra storage and if you want to assign some tags then
+Key:Name and Value:Webserver and click next.
+ 11. Create a Security group and 
+        ---> assign its name
+        ---> add some rules SSH, HTTP and HTTPS.
+        ---> change source to "anywhere".
+        ---> click on "Review and Launch"
+ 12. Now a portal of key pair will be pop-up
+        ---> click on "Create a new key pair" assign its name
+        ---> click on download keypair and then launch instance and then view instances.
+        ---> wait for a while till "Status Checks" opt shows 2/2 until just copy the IPv4 PUBLIC IP.
+ 13. Now open the Puutygen software
+        ---> click on load option and choose your saved keypair and the click on open button
+        ---> now click "save as private key" and name it.
+        ---> now close the software.
+ 14. Open the Putty software
+        ---> click on SSH and then browse your saved pvt key
+        ---> click on Session and paste your public ip in the host name section
+        ---> click on open >> yes and now your putty software will be open.
+ 15. Now type the following commands for checking the server 
+        ---> ec2-user
+        ---> sudo su
+        ---> yum install httpd -y
+        ---> service httpd status    ( To check the status of your server whether showing active or inactive )
+        ---> service httpd start     ( To start the service if it is inactive )
+        ---> for cross check open a new tab in browser and paste the IP address if it is showing Apache Server page then great else repeat the procedures.
+ 16. Now type the following commands as it is for accesing Meta-Data
+        ---> curl http://169.254.169.254/latest/meta-data
+        ---> curl http://169.254.169.254/latest/meta-data/name_of_the_info/
+ 17. Deleting server and volume (never forget this step)
+        ---> go to console >> EC2 >> instance settings >> change termination protection >> yes disable
+        ---> go to actions >> instance state >> terminate
